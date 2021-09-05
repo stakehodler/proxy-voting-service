@@ -1,0 +1,27 @@
+{
+  "name": "proxy-voting-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "npx hardhat Deploy --token 0x8AAcfCAdAf5B256c8734EF33E45096260fb173d5 --timelock 0x8AAcfCAdAf5B256c8734EF33E45096260fb173d5 --guardian 0x8AAcfCAdAf5B256c8734EF33E45096260fb173d5 --network rinkeby",
+    "accounts": "npx hardhat accounts --network rinkeby",
+    "interact": "npx hardhat Interact --network rinkeby",
+    "deployProxy": "npx hardhat DeployProxy --governor 0xac3bCe265E9386512607Ce51546B23Ca9B6f16D2 --network rinkeby"
+  },
+  "keywords": [],
+  "author": "Ian Tozer <ian@tzrlabs.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.1",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "chai": "^4.2.0",
+    "ethereum-waffle": "^3.2.1",
+    "ethers": "^5.0.24",
+    "hardhat": "^2.0.6"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  }
+}

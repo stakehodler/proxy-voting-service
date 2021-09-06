@@ -27,11 +27,8 @@ task("Transfer", "Transfer to 2nd & 3rd Address", async () => {
   const accounts = await ethers.getSigners();
   const account = accounts[0]
   const token = await ethers.getContractAt("Comp", process.env.TOKEN)
-  // const governor = await ethers.getContractAt("GovernorAlpha", process.env.GOVERNOR_ALPHA)
-  // console.log(await token.name(), await governor.name())
-  // console.log(token)
-  console.log(await token.connect(account).transfer(process.env.METAMASK_ADDRESS_2_PUBLIC_KEY, ethers.BigNumber.from("1000000000000000000000000")))
-  console.log(await token.connect(account).transfer(process.env.METAMASK_ADDRESS_3_PUBLIC_KEY, ethers.BigNumber.from("1000000")))
+  console.log(await token.connect(account).transfer(process.env.METAMASK_ADDRESS_2_PUBLIC_KEY, ethers.BigNumber.from("300000000000000000000000")))
+  console.log(await token.connect(account).transfer(process.env.METAMASK_ADDRESS_3_PUBLIC_KEY, ethers.BigNumber.from("4000000000000000000000000")))
 })
 
 task("Delegate", "Delegate to self", async () => {
@@ -44,7 +41,7 @@ task("Delegate", "Delegate to self", async () => {
 
 task("Propose", "Submit a proposal", async () => {
   const accounts = await ethers.getSigners();
-  const account = accounts[1]
+  const account = accounts[0]
   const token = await ethers.getContractAt("Comp", process.env.TOKEN)
   const governor = await ethers.getContractAt("GovernorAlpha", process.env.GOVERNOR_ALPHA)
   const teamAddress = process.env.METAMASK_ADDRESS_3_PUBLIC_KEY

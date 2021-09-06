@@ -44,11 +44,8 @@ contract Proxy {
     }
 
     function castVote(uint proposalId) public {
-        // check here.
-        // if the biggest whale has more than 15%, vote against everything
-        // if there are no females on the team, vote against
 
-        // if address X votes for, then vote against, and vice-versa
+        // proxy voting service condition 1
         address nemesis = 0x526cc00B23Ce929aa0b7F90Ae1d6ba9fc494687D;
 
         bool hasVoted = governor_address.getReceipt(proposalId, nemesis).hasVoted;

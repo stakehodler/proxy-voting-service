@@ -4,6 +4,10 @@ Proof of concept for an on-chain proxy voting service.
 
 The proxy voting service can have infinite conditions but in this proof-of-concept, it only has one - It will always vote the opposite to a nemesis address.
 
+# Walkthrough
+
+https://www.youtube.com/watch?v=remr3D34FZk
+
 # Deployment
 
 ### Phase 1 (Deploy your Compound Governance System): 

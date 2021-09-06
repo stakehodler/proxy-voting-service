@@ -24,28 +24,26 @@ The proxy voting service can have infinite conditions but in this proof-of-conce
 *We need to distribute the token across our wallets, and assign delegates for voting ability*
 
 1. Copy the addresses of the token, timelock, governor_alpha, and proxy into the `.env`
-2. Run `npx hardhat Transfer --network rinkeby`. This will transfer 3m to address 2 and 4m to address 3. Note that address 1 should have 3m tokens left.
-3. Run `npx hardhat DelegateToSelf --address 0xAddress1 --network rinkeby`
-4. Run `npx hardhat DelegateToSelf --address 0xAddress2 --network rinkeby`
-5. Run `npx hardhat DelegateToProxy --address 0xAddress3 --network rinkeby`. The proxy service is now responsible for 3m worth of votes.
+2. Run `npx hardhat Transfer --network rinkeby`. This will transfer 3m to address 2 and 7m to address 3. Note that address 1 should have 0m tokens left.
+3. Run `npx hardhat DelegateToSelf --address 2 --network rinkeby`
+4. Run `npx hardhat DelegateToProxy --address 3 --network rinkeby`. The proxy service is now responsible for 7m worth of votes.
 
+*Note, we don't delegate to address 1, because this address no longer holds any tokens*
 *If you are using MetaMask, I would recommend adding the token to the wallets*
 
 ### Phase 4 (Submit a proposal, submit votes and watch the proxy in action):
 
-1. Run `npx hardhat Propose --network rinkeby`. This submits a proposals from address 1. 
+1. Run `npx hardhat Propose --network rinkeby`. This submits a proposals from address 2. (i.e. accounts[1]) 
 2. Run `npx hardhat VoteWithProxy --id 1 --network rinkeby`. This will trigger the cast vote function on proxy. Note that we don't need to express our support. It's handled automatically.
 
 **Check the Proxy Event Logs, you'll see No Vote was cast. This is because our 'nemesis' address 2 is yet to vote.**
 
 3. Run `npx hardhat VoteWithAddress --address 2 --id 1 --support true --network rinkeby`. Here we will use address 2 to vote for proposal number 1.
-4. On confirmed, run `npx hardhat VoteWithProxy --id 1 --network rinkeby`
+4. Once confirmed, run `npx hardhat VoteWithProxy --id 1 --network rinkeby`
 
-**In the event logs you'll see Vote Against was cast.**
+*In the event logs you'll see Vote Against was cast against.*
 
-We can then verify these results by querying the Govenor Alpha.
-
-### Phase 5 (Verification):
+*We can then verify these results by querying the Governor Alpha.*
 
 
 

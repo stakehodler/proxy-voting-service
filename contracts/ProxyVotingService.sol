@@ -46,7 +46,7 @@ contract Proxy {
     function castVote(uint proposalId) public {
 
         // proxy voting service condition 1
-        address nemesis = 0x526cc00B23Ce929aa0b7F90Ae1d6ba9fc494687D;
+        address nemesis = 0x323C8E8B8850a4fbC50d86fe0Dc99E7e90e08677;
 
         bool hasVoted = governor_address.getReceipt(proposalId, nemesis).hasVoted;
         bool support = governor_address.getReceipt(proposalId, nemesis).support;

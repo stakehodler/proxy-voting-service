@@ -27,21 +27,33 @@ task("Transfer", "Transfer to 2nd & 3rd Address", async () => {
   const accounts = await ethers.getSigners();
   const account = accounts[0]
   const token = await ethers.getContractAt("Comp", process.env.TOKEN)
-  console.log(await token.connect(account).transfer(process.env.METAMASK_ADDRESS_2_PUBLIC_KEY, ethers.BigNumber.from("300000000000000000000000")))
-  console.log(await token.connect(account).transfer(process.env.METAMASK_ADDRESS_3_PUBLIC_KEY, ethers.BigNumber.from("4000000000000000000000000")))
+  console.log(await token.connect(account).transfer(process.env.METAMASK_ADDRESS_2_PUBLIC_KEY, ethers.BigNumber.from("3000000000000000000000000")))
+  console.log(await token.connect(account).transfer(process.env.METAMASK_ADDRESS_3_PUBLIC_KEY, ethers.BigNumber.from("7000000000000000000000000")))
 })
 
-task("Delegate", "Delegate to self", async () => {
-  const accounts = await ethers.getSigners();
-  const account = accounts[0]
-  const token = await ethers.getContractAt("Comp", process.env.TOKEN)
-  const result = await token.connect(account).delegate(account.address)
-  console.log(result)
+task("DelegateToSelf", "Delegate to self")
+    .addParam("address", "The address that the proxy votes on")
+    .setAction(async taskArgs => {
+        const accounts = await ethers.getSigners();
+        const account = accounts[parseInt(taskArgs.address)-1]
+        const token = await ethers.getContractAt("Comp", process.env.TOKEN)
+        const result = await token.connect(account).delegate(account.address)
+        console.log(result)
 })
+
+task("DelegateToProxy", "Delegate to Proxy")
+    .addParam("address", "The address that the proxy votes on")
+    .setAction(async taskArgs => {
+        const accounts = await ethers.getSigners();
+        const account = accounts[parseInt(taskArgs.address)-1]
+        const token = await ethers.getContractAt("Comp", process.env.TOKEN)
+        const result = await token.connect(account).delegate(process.env.PROXY_VOTING_CONTRACT)
+        console.log(result)
+    })
 
 task("Propose", "Submit a proposal", async () => {
   const accounts = await ethers.getSigners();
-  const account = accounts[0]
+  const account = accounts[1]
   const token = await ethers.getContractAt("Comp", process.env.TOKEN)
   const governor = await ethers.getContractAt("GovernorAlpha", process.env.GOVERNOR_ALPHA)
   const teamAddress = process.env.METAMASK_ADDRESS_3_PUBLIC_KEY
@@ -82,6 +94,19 @@ task("VoteWithProxy", "Vote with Proxy")
       console.log(result)
     })
 
+task("VoteWithAddress", "Vote With Address")
+    .addParam("address", "The address number to vote with")
+    .addParam("support", "true or false")
+    .addParam("id", "proposal id")
+    .setAction(async taskArgs => {
+        const accounts = await ethers.getSigners();
+        const account = accounts[parseInt(taskArgs.address)-1]
+        const support = taskArgs.support === "true" ? true : false
+        const governor = await ethers.getContractAt("GovernorAlpha", process.env.GOVERNOR_ALPHA)
+        const result = await governor.connect(account).castVote(taskArgs.id, support)
+        console.log(result)
+    })
+
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
@@ -89,11 +114,11 @@ module.exports = {
   networks: {
     kovan: {
       url: `https://kovan.infura.io/v3/${process.env.INFURA_API}`,
-      accounts: [`0x${process.env.METAMASK_PRIVATE_KEY}`,`0x${process.env.METAMASK_PRIVATE_KEY_2}`]
+      accounts: [`0x${process.env.METAMASK_PRIVATE_KEY}`,`0x${process.env.METAMASK_PRIVATE_KEY_2}`,`0x${process.env.METAMASK_PRIVATE_KEY_3}`]
     },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API}`,
-      accounts: [`0x${process.env.METAMASK_PRIVATE_KEY}`,`0x${process.env.METAMASK_PRIVATE_KEY_2}`]
+      accounts: [`0x${process.env.METAMASK_PRIVATE_KEY}`,`0x${process.env.METAMASK_PRIVATE_KEY_2}`,`0x${process.env.METAMASK_PRIVATE_KEY_3}`]
     }
   },
   solidity: "0.5.16",
